@@ -4,6 +4,9 @@ import { useRouter } from "next/router";
 import { useTheme } from "@/context/ThemeContext";
 import { GiUbisoftSun } from "react-icons/gi";
 import { GiMoon } from "react-icons/gi";
+import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
+
+import styles from "@/styles/Clerk.module.css"
 
 export default function Navbar() {
 	const router = useRouter();
@@ -58,7 +61,7 @@ export default function Navbar() {
 								</li>
 							))}
 						</ul>
-						
+
 						<button
 							className={`btn ${theme === "dark" ? "btn-light" : "btn-dark"}`}
 							onClick={toggleTheme}
@@ -69,6 +72,17 @@ export default function Navbar() {
 								<GiUbisoftSun size={"30px"} />
 							)}
 						</button>
+						<div className="ms-3">
+							<SignedIn>
+								{/* Mount the UserButton component */}
+								<UserButton className={styles.customUserButton}/>
+							</SignedIn>
+							<SignedOut>
+								{/* Signed out users get sign in button */}
+								<SignInButton className={styles.signin}/>
+							</SignedOut>
+						</div>
+
 					</div>
 				</div>
 			</nav>
