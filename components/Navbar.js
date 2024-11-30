@@ -48,7 +48,7 @@ export default function Navbar() {
 									onMouseEnter={() => setHoveredItem(obj.id)}
 									onMouseLeave={() => setHoveredItem(null)}
 								>
-									<a
+									<Link
 										className="nav-link active"
 										aria-current="page"
 										href={obj.link}
@@ -57,7 +57,7 @@ export default function Navbar() {
 										}}
 									>
 										{obj.name}
-									</a>
+									</Link>
 								</li>
 							))}
 						</ul>
