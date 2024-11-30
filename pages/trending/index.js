@@ -1,13 +1,10 @@
-import { TMDB_API_BASE_URL, TMDB_API_KEY } from "@/keys/tmdbKey";
 import Link from "next/link";
 
 export async function getServerSideProps() {
-	const res = await fetch(
-		`${TMDB_API_BASE_URL}/trending/movie/day?api_key=${TMDB_API_KEY}`
-	);
+	const res = await fetch("http://localhost:3000/api/movie/trending");
 	const data = await res.json();
 
-	return { props: { trendingMovies: data.results } };
+	return { props: { trendingMovies: data } };
 }
 
 

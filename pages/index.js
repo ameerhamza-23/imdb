@@ -1,22 +1,17 @@
 import Link from "next/link";
-import { TMDB_API_BASE_URL, TMDB_API_KEY } from "@/keys/tmdbKey";
 
 export async function getServerSideProps() {
-	// Fetching trending movies and popular TV shows
-	const moviesRes = await fetch(
-		`${TMDB_API_BASE_URL}/trending/movie/day?api_key=${TMDB_API_KEY}`
-	);
-	const tvShowsRes = await fetch(
-		`${TMDB_API_BASE_URL}/tv/popular?api_key=${TMDB_API_KEY}`
-	);
+
+	const moviesRes = await fetch("http://localhost:3000/api/movie/trending");
+	const tvShowsRes = await fetch("http://localhost:3000/api/tv/popular");
 
 	const trendingMovies = await moviesRes.json();
 	const popularTvShows = await tvShowsRes.json();
 
 	return {
 		props: {
-			trendingMovies: trendingMovies.results.slice(0, 4), // Limit to 5 movies
-			popularTvShows: popularTvShows.results.slice(0, 4), // Limit to 5 TV shows
+			trendingMovies: trendingMovies.slice(0, 4),
+			popularTvShows: popularTvShows.slice(0, 4),
 		},
 	};
 }

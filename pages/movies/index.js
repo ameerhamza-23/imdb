@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { TMDB_API_BASE_URL, TMDB_API_KEY } from "@/keys/tmdbKey";
 
 const PopularPage = () => {
 	const [popularMovies, setPopularMovies] = useState([]);
 
 	useEffect(() => {
 		const fetchPopularMovies = async () => {
-			const res = await fetch(
-				`${TMDB_API_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`
-			);
+			const res = await fetch("http://localhost:3000/api/movie/popular");
 			const data = await res.json();
-            console.log(data)
-			setPopularMovies(data.results);
+			setPopularMovies(data);
 		};
 
 		fetchPopularMovies();

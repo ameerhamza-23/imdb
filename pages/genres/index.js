@@ -4,9 +4,7 @@ import { useState } from "react";
 
 export async function getServerSideProps() {
 	// Fetch all available genres
-	const genresRes = await fetch(
-		`${TMDB_API_BASE_URL}/genre/movie/list?api_key=${TMDB_API_KEY}`
-	);
+	const genresRes = await fetch("http://localhost:3000/api/genres");
 	const genresData = await genresRes.json();
 
 	return {
@@ -21,11 +19,9 @@ const GenresPage = ({ genres }) => {
 	const [selectedGenre, setSelectedGenre] = useState(null);
 
 	const fetchMoviesByGenre = async (genreId) => {
-		const res = await fetch(
-			`${TMDB_API_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_genres=${genreId}`
-		);
+		const res = await fetch("http://localhost:3000/api/movie/genre/"+genreId);
 		const data = await res.json();
-		setMovies(data.results || []);
+		setMovies(data || []);
 		setSelectedGenre(genreId);
 	};
 
@@ -61,7 +57,7 @@ const GenresPage = ({ genres }) => {
 					</h2>
 				)}
 				<div className="row">
-					{movies.map((movie) => (
+					{movies.length > 0 && movies.map((movie) => (
 						<div className="col-md-4 col-lg-3 mb-4" key={movie.id}>
 							<div className="card h-100">
 								<img

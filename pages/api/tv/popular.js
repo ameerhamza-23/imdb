@@ -1,20 +1,17 @@
-import { TMDB_API_BASE_URL, TMDB_API_KEY } from "@/keys/tmdbKey";
+import TVShow from '../../../models/TVShow';
+import dbConnect from '../../../lib/dbConnect';
 
 export default async function handler(req, res) {
-	try {
-		const response = await fetch(
-			`${TMDB_API_BASE_URL}/tv/popular?api_key=${TMDB_API_KEY}`
-		);
-		const data = await response.json();
+  await dbConnect();
 
-		if (!response.ok) {
-			throw new Error(
-				data.status_message || "Failed to fetch popular TV shows"
-			);
-		}
-
-		res.status(200).json(data.results);
-	} catch (error) {
-		res.status(500).json({ error: error.message });
-	}
+  if (req.method === 'GET') {
+    try {
+      const popularShows = await TVShow.find().sort({ popularity: -1 }).limit(10);
+      res.status(200).json(popularShows);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch popular shows' });
+    }
+  } else {
+    res.status(405).json({ error: 'Method Not Allowed' });
+  }
 }

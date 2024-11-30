@@ -1,9 +1,5 @@
-import { TMDB_API_BASE_URL, TMDB_API_KEY } from "@/keys/tmdbKey";
-
 export async function getServerSideProps({ params }) {
-	const res = await fetch(
-		`${TMDB_API_BASE_URL}/movie/${params.id}?api_key=${TMDB_API_KEY}`
-	);
+	const res = await fetch("http://localhost:3000/api/movie/"+params.id);
 	const movie = await res.json();
 	return { props: { movie } };
 }
@@ -32,7 +28,7 @@ const MovieDetails = ({ movie }) => (
 				</p>
 				<p>
 					<strong>Genres:</strong>{" "}
-					{movie.genres && movie.genres.map((genre) => genre.name).join(", ")}
+					{movie.genres && movie.genres.map((genre) => genre).join(", ")}
 				</p>
 			</div>
 		</div>
